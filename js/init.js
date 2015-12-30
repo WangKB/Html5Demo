@@ -1,6 +1,6 @@
 ﻿var windowWidth = 1200;
 var windowHeight = 600;
-var plane = {x_axis:600,y_axis:300,ex:0,ey:0,m:10};
+var plane = {x_axis:600,y_axis:300,ke:0,dir:Math.PI,m:10,f:0.05};
 var missiles = [];
 var f = 0.05;
 var ignoreE = 1;
@@ -43,6 +43,8 @@ function render(cxt){
 	}
 	
 	cxt.closePath();
+	//cxt.rotate(Math.PI/100);
+	//cxt.translate(1,1)
 	cxt.fillStyle="black";
 	cxt.fill();
 	cxt.stroke();
@@ -58,20 +60,10 @@ function render(cxt){
 }
 
 function update(){
-	if(plane.ex>0){
-		plane.x_axis+= Math.sqrt(2*plane.ex/plane.m);
-		plane.ex=(plane.ex-plane.ex*f)<ignoreE?0:(plane.ex-plane.ex*f)
-	}else{
-		plane.x_axis-= Math.sqrt(-2*plane.ex/plane.m);
-		plane.ex=(plane.ex-plane.ex*f)>-ignoreE?0:(plane.ex-plane.ex*f)
-	}
-	if(plane.ey>0){
-		plane.y_axis+= Math.sqrt(2*plane.ey/plane.m);
-		plane.ey=(plane.ey-plane.ey*f)<ignoreE?0:(plane.ey-plane.ey*f)
-	}else{
-		plane.y_axis-= Math.sqrt(-2*plane.ey/plane.m);
-		plane.ey=(plane.ey-plane.ey*f)>-ignoreE?0:(plane.ey-plane.ey*f)
-	}
+		plane.x_axis+= Math.sin(plane.dir)*Math.sqrt(2*plane.ke/plane.m);
+		plane.y_axis+= Math.cos(plane.dir)*Math.sqrt(2*plane.ke/plane.m);
+		plane.ke=(plane.ke-plane.ke*plane.f)<ignoreE?0:(plane.ke-plane.ke*plane.f)
+	
 	for(var i =0;i<missiles.length;i++){
 		if(missiles[i].ex>0){
 			missiles[i].x_axis+= Math.sqrt(2*missiles[i].ex/missiles[i].m);
@@ -97,10 +89,10 @@ function attack(){
 
 function move(e){
 	switch(e.keyCode){
-		case 37:keyName = plane.ex-=100;   break;
-       	case 38:keyName = plane.ey-=100;   break;
-       	case 39:keyName = plane.ex+=100;   break;
-       	case 40:keyName = plane.ey+=100;   break;
+		case 37:plane.dir+=Math.PI/10;   break;
+       	case 38:plane.ke+=100;   break;
+       	case 39:plane.dir-=Math.PI/10;   break;
+       	case 40:plane.ke=plane.ke>10?(plane.ke-=10):0;   break;
 		case 32:attack();   break;
 	}
 }
