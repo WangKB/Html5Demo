@@ -22,6 +22,30 @@ window.onload=function(){
 		
 		}
 		,40);
+		
+	function move(e){
+	switch(e.keyCode){
+		case 37:
+			if((plane.dir+Math.PI/10)>2*Math.PI){
+				plane.dir=plane.dir+Math.PI/10-2*Math.PI;
+			}else{
+				plane.dir+=Math.PI/10;
+			}
+							
+		break;
+       	case 38:plane.ke+=100;   break;
+       	case 39:
+			
+			if((plane.dir-Math.PI/10)<0){
+				plane.dir=plane.dir-Math.PI/10+2*Math.PI;
+			}else{
+				plane.dir-=Math.PI/10;
+			}   
+		break;
+       	case 40:plane.ke=plane.ke>10?(plane.ke-=10):0;   break;
+		case 32:attack();   break;
+	}
+}
 	
 }
 
@@ -41,10 +65,10 @@ function render(cxt){
 	for(var i=0;i<img_x.length;i++){
 		cxt.lineTo(plane.x_axis+img_x[img_x.length-i-1],plane.y_axis+img_y[img_x.length-i-1]);
 	}
-	
+
+
 	cxt.closePath();
-	//cxt.rotate(Math.PI/100);
-	//cxt.translate(1,1)
+
 	cxt.fillStyle="black";
 	cxt.fill();
 	cxt.stroke();
@@ -65,34 +89,14 @@ function update(){
 		plane.ke=(plane.ke-plane.ke*plane.f)<ignoreE?0:(plane.ke-plane.ke*plane.f)
 	
 	for(var i =0;i<missiles.length;i++){
-		if(missiles[i].ex>0){
-			missiles[i].x_axis+= Math.sqrt(2*missiles[i].ex/missiles[i].m);
-			missiles[i].ex=(missiles[i].ex-missiles[i].ex*f)<ignoreE?0:(missiles[i].ex-missiles[i].ex*f)
-		}else{
-			missiles[i].x_axis-= Math.sqrt(-2*missiles[i].ex/missiles[i].m);
-			missiles[i].ex=(missiles[i].ex-missiles[i].ex*f)>-ignoreE?0:(missiles[i].ex-missiles[i].ex*f)
-		}
-		if(missiles[i].ey>0){
-			missiles[i].y_axis+= Math.sqrt(2*missiles[i].ey/missiles[i].m);
-			missiles[i].ey=(missiles[i].ey-missiles[i].ey*f)<ignoreE?0:(missiles[i].ey-missiles[i].ey*f)
-		}else{
-			missiles[i].y_axis-= Math.sqrt(-2*missiles[i].ey/missiles[i].m);
-			missiles[i].ey=(missiles[i].ey-missiles[i].ey*f)>-ignoreE?0:(missiles[i].ey-missiles[i].ey*f)
-		}
+		missiles[i].x_axis+= Math.sin(missiles[i].dir)*Math.sqrt(2*missiles[i].ke/missiles[i].m);
+		missiles[i].y_axis+= Math.cos(missiles[i].dir)*Math.sqrt(2*missiles[i].ke/missiles[i].m);
+		missiles[i].ke=(missiles[i].ke-missiles[i].ke*missiles[i].f)<ignoreE?0:(missiles[i].ke-missiles[i].ke*missiles[i].f)
 	}
 }
 
 function attack(){
-	var missile = {x_axis:plane.x_axis+40,y_axis:plane.y_axis+90,ex:plane.ex,ey:plane.ey-100,m:1};
+	var missile = {x_axis:plane.x_axis+40,y_axis:plane.y_axis+90,dir:plane.dir,ke:1000,m:1,f:0.01};
 	missiles.push(missile);
 }
 
-function move(e){
-	switch(e.keyCode){
-		case 37:plane.dir+=Math.PI/10;   break;
-       	case 38:plane.ke+=100;   break;
-       	case 39:plane.dir-=Math.PI/10;   break;
-       	case 40:plane.ke=plane.ke>10?(plane.ke-=10):0;   break;
-		case 32:attack();   break;
-	}
-}
