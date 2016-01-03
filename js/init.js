@@ -1,9 +1,7 @@
 ﻿var windowWidth = 1200;
 var windowHeight = 600;
-var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,m:10,f:0.05,img_x:[0,6,10,12,30,30,12,18,60,60,20,20,15,12,8,2,0,-2,-8,-12,-15,-20,-20,-60,-60,-18,-12,-30,-30,-12,-10,-6],img_y:[-100,-50,-52,-46,-30,-25,-28,-10,30,40,45,55,58,40,55,55,40,55,55,40,58,55,45,40,30,-10,-28,-25,-30,-46,-52,-50]};
-var missile = {x_axis:0,y_axis:0,dir:Math.PI/8,ke:1000,m:1,f:0.01,img_x:[-3,-3,3,3],img_y:[-20,20,20,-20]};
-var objects = [plane,missile];
-var f = 0.05;
+var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,model:model.planes.J20};
+var objects = [plane];
 var ignoreE = 1;
 
 window.onload=function(){
@@ -60,13 +58,13 @@ window.onload=function(){
 function render(cxt){
 	
 	cxt.clearRect(0,0,windowWidth, windowHeight);
-
+	
 	
 	for(var i =0;i<objects.length;i++){
 		
 		cxt.beginPath();
-		var img_x = objects[i].img_x;
-		var img_y = objects[i].img_y;
+		var img_x = objects[i].model.img_x;
+		var img_y = objects[i].model.img_y;
 		
 		for(var j=0;j<img_x.length;j++){
 			if(j==0){
@@ -87,10 +85,11 @@ function render(cxt){
 function update(){
 
 	for(var i =0;i<objects.length;i++){
-		objects[i].x_axis+= Math.sin(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].m);
-		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].m);
-		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].f)
+		objects[i].x_axis+= Math.sin(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
+		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
+		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].model.f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].model.f)
 	}
+	
 }
 
 function roX(x,y,object){
@@ -102,7 +101,7 @@ function roY(x,y,object){
 }
 
 function attack(){
-	var missile = {x_axis:roX(plane.x_axis+40,plane.y_axis+90,plane),y_axis:roY(plane.x_axis+40,plane.y_axis+90,plane),dir:plane.dir,ke:1000,m:1,f:0.01,img_x:[-3,-3,3,3],img_y:[-20,20,20,-20]};
+	var missile = {x_axis:roX(plane.x_axis+40,plane.y_axis+90,plane),y_axis:roY(plane.x_axis+40,plane.y_axis+90,plane),dir:plane.dir,ke:1000,model:model.missiles.general};
 	objects.push(missile);
 }
 
