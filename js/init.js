@@ -1,24 +1,33 @@
-﻿var windowWidth = 1200;
-var windowHeight = 600;
+﻿var windowWidth = 1300;
+var windowHeight = 700;
 var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,model:model.planes.J20};
-var objects = [plane];
+var misslie = {x_axis:0,y_axis:0,ke:10,dir:Math.PI/4,model:model.missiles.general};
+var objects = [plane,misslie];
 var ignoreE = 1;
+var scale = 0.5;
 
 window.onload=function(){
 	
 	document.onkeydown = move;
 	
+	document.documentElement.style.overflow='hidden';
+	
 	var canvas = document.getElementById("canvas");
 	var content = canvas.getContext("2d");
+	
+	windowWidth = document.body.clientWidth
+    windowHeight = document.body.clientHeight
 	
 	canvas.width = windowWidth;
 	canvas.height = windowHeight;
 	
-	//var img_y = [50,48,54,70,75,72,90,130,140,145,155,158,140,155,155,140,155,155,140,158,155,145,140,130,90,72,75,70,54,48,50];
+	//var img_y=[0,6,10,12,30,30,12,18,60,60,20,20,15,12,8,2,0,-2,-8,-12
+			//,-15,-20,-20,-60,-60,-18,-12,-30,-30,-12,-10,-6];
 	//var xray = [];
 	//for(var i=0;i<img_y.length;i++){
-		//xray[i]= img_y[i]-100;
+		//xray[i]= img_y[i]/2;
 	//}
+	
 	//console.log(xray.toString());
 	
 	setInterval(function(){
@@ -27,7 +36,7 @@ window.onload=function(){
 		render(content);
 		
 		}
-		,40);
+		,16.7);
 		
 	function move(e){
 	switch(e.keyCode){
@@ -39,7 +48,7 @@ window.onload=function(){
 			}
 							
 		break;
-       	case 38:plane.ke+=100;   break;
+       	case 38:plane.ke+=50;   break;
        	case 39:
 			
 			if((plane.dir-Math.PI/50)<0){
@@ -68,9 +77,9 @@ function render(cxt){
 		
 		for(var j=0;j<img_x.length;j++){
 			if(j==0){
-			cxt.moveTo(roX(objects[i].x_axis+img_x[j],objects[i].y_axis+img_y[j],objects[i]),roY(objects[i].x_axis+img_x[j],objects[i].y_axis+img_y[j],objects[i]));
+			cxt.moveTo(roX(objects[i].x_axis+img_x[j]*scale,objects[i].y_axis+img_y[j]*scale,objects[i]),roY(objects[i].x_axis+img_x[j]*scale,objects[i].y_axis+img_y[j]*scale,objects[i]));
 			}else{
-			cxt.lineTo(roX(objects[i].x_axis+img_x[j],objects[i].y_axis+img_y[j],objects[i]),roY(objects[i].x_axis+img_x[j],objects[i].y_axis+img_y[j],objects[i]));
+			cxt.lineTo(roX(objects[i].x_axis+img_x[j]*scale,objects[i].y_axis+img_y[j]*scale,objects[i]),roY(objects[i].x_axis+img_x[j]*scale,objects[i].y_axis+img_y[j]*scale,objects[i]));
 			}
 		}
 		
@@ -89,7 +98,14 @@ function update(){
 		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
 		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].model.f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].model.f)
 	}
-	
+	tandrg=(objects[1].x_axis-objects[0].x_axis)/(objects[1].y_axis-objects[0].y_axis);
+	if(Math.atan(tandrg)!=objects[1].dir){
+		console.log("a"+Math.atan(tandrg));
+		console.log("b"+objects[1].dir);
+		console.log("c"+objects[0].dir);
+		objects[1].dir=Math.atan(tandrg);
+		
+	}
 }
 
 function roX(x,y,object){
