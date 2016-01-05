@@ -1,7 +1,7 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
 var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,model:model.planes.J20};
-var misslie = {x_axis:0,y_axis:0,ke:10,dir:Math.PI/4,model:model.missiles.general};
+var misslie = {x_axis:0,y_axis:550,ke:50,dir:Math.PI/18,model:model.missiles.general};
 var objects = [plane,misslie];
 var ignoreE = 1;
 var scale = 0.5;
@@ -68,7 +68,6 @@ function render(cxt){
 	
 	cxt.clearRect(0,0,windowWidth, windowHeight);
 	
-	
 	for(var i =0;i<objects.length;i++){
 		
 		cxt.beginPath();
@@ -98,13 +97,14 @@ function update(){
 		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
 		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].model.f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].model.f)
 	}
-	tandrg=(objects[1].x_axis-objects[0].x_axis)/(objects[1].y_axis-objects[0].y_axis);
-	if(Math.atan(tandrg)!=objects[1].dir){
+	tandrg=(objects[1].y_axis-objects[0].y_axis)!=0?(objects[1].x_axis-objects[0].x_axis)/(objects[1].y_axis-objects[0].y_axis):(objects[1].x_axis<objects[0].x_axis)?Math.PI/2:Math.PI*3/2;
+	if(((Math.atan(tandrg)-objects[1].dir)<Math.PI)&&((Math.atan(tandrg)-objects[1].dir)>0)){
 		console.log("a"+Math.atan(tandrg));
 		console.log("b"+objects[1].dir);
 		console.log("c"+objects[0].dir);
-		objects[1].dir=Math.atan(tandrg);
-		
+		objects[1].dir=((objects[1].dir+Math.PI/100)>Math.atan(tandrg))?Math.atan(tandrg):(objects[1].dir+Math.PI/100);
+	}else{
+		objects[1].dir=((objects[1].dir-Math.PI/100)<Math.atan(tandrg))?Math.atan(tandrg):(objects[1].dir-Math.PI/100);
 	}
 }
 
@@ -117,7 +117,7 @@ function roY(x,y,object){
 }
 
 function attack(){
-	var missile = {x_axis:roX(plane.x_axis+40,plane.y_axis+90,plane),y_axis:roY(plane.x_axis+40,plane.y_axis+90,plane),dir:plane.dir,ke:1000,model:model.missiles.general};
+	var missile = {x_axis:roX(plane.x_axis+40,plane.y_axis+90,plane),y_axis:roY(plane.x_axis+40,plane.y_axis+90,plane),dir:plane.dir,ke:10,model:model.missiles.general};
 	objects.push(missile);
 }
 
