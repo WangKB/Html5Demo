@@ -15,8 +15,8 @@ window.onload=function(){
 	var canvas = document.getElementById("canvas");
 	var content = canvas.getContext("2d");
 	
-	windowWidth = document.body.clientWidth
-    windowHeight = document.body.clientHeight
+	windowWidth = document.body.clientWidth;
+    windowHeight = 1000;//高度全屏有问题
 	
 	canvas.width = windowWidth;
 	canvas.height = windowHeight;
@@ -115,9 +115,6 @@ function update(){
 	}
 	
 	
-	if(objects[0].dir == angle){
-		alert(1);
-	}
 	objects[0].dir = angle;
 }
 
