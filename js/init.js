@@ -1,7 +1,7 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
-var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,model:model.planes.J20};
-var misslie = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,model:model.missiles.general};
+var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes.J20};
+var misslie = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles.general};
 var objects = [misslie,plane];
 var ignoreE = 1;
 var scale = 0.5;
@@ -16,7 +16,7 @@ window.onload=function(){
 	var content = canvas.getContext("2d");
 	
 	windowWidth = document.body.clientWidth;
-    windowHeight = 1000;//高度全屏有问题
+    windowHeight = document.body.clientHeight;//高度全屏有问题
 	
 	canvas.width = windowWidth;
 	canvas.height = windowHeight;
@@ -39,25 +39,36 @@ window.onload=function(){
 		,16.7);
 		
 	function move(e){
+
 		switch(e.keyCode){
 			case 37:
-				if((plane.dir+Math.PI/50)>2*Math.PI){
-					plane.dir=plane.dir+Math.PI/50-2*Math.PI;
-				}else{
-					plane.dir+=Math.PI/50;
+				if(plane.dira<plane.model.dira.length-1){
+					plane.dira++;
 				}
+				
 								
 			break;
-			case 38:plane.ke+=50;   break;
-			case 39:
+			case 38:
+				if(plane.kea<plane.model.kea.length-1){
+					plane.kea++;
+				}
 				
-				if((plane.dir-Math.PI/50)<0){
-					plane.dir=plane.dir-Math.PI/50+2*Math.PI;
-				}else{
-					plane.dir-=Math.PI/50;
-				}   
+			
+			   break;
+			case 39:
+				if(plane.dira>0){
+					plane.dira--;
+				}
+				
+				
 			break;
-			case 40:plane.ke=plane.ke>10?(plane.ke-=10):0;   break;
+			case 40:
+				if(plane.kea>0){
+					plane.kea--;
+				}
+				
+				
+			   break;
 			case 32:attack(plane);   break;
 		}
 }
@@ -95,7 +106,16 @@ function update(){
 	for(var i =0;i<objects.length;i++){
 		objects[i].x_axis+= Math.sin(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
 		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
-		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].model.f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].model.f)
+		objects[i].ke+=objects[i].model.kea[objects[i].kea];
+		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].model.f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].model.f);
+
+		if(objects[i].ke!=0){
+			objects[i].dir+=(objects[i].model.dira[objects[i].dira])*Math.PI;
+		}
+		
+		if(objects[i].dir<0){
+			objects[i].dir+=Math.PI*2;
+		}
 	}
 	
 	var angle = 0;
