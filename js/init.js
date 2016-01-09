@@ -1,7 +1,7 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
-var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes.J20};
-var misslie = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles.general};
+var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1};
+var misslie = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:1};
 var objects = [misslie,plane];
 var ignoreE = 1;
 var scale = 0.5;
@@ -116,26 +116,41 @@ function update(){
 		if(objects[i].dir<0){
 			objects[i].dir+=Math.PI*2;
 		}
+		
+		var flag = false;
+		if(objects[i].target!=-1){
+			for(var j=0;j<model.missiles.length;j++){
+				if(model.missiles[j]==objects[i].model){
+					flag=true;	
+				}
+			}
+		}
+		if(flag){
+			var angle = 0;
+			var target = objects[i];
+			var missilerun = objects[objects[i].target];
+			
+			if(missilerun.y_axis!=target.y_axis){
+				angle=Math.atan((missilerun.x_axis-target.x_axis)/(missilerun.y_axis-target.y_axis));
+			}else if(missilerun.x_axis<target.x_axis){
+				angle=Math.PI/2;
+			}else{
+				angle=Math.PI*3/2;
+			}
+			
+			if(angle<0){
+				angle+=Math.PI*2;
+			}
+			if(target.y_axis > missilerun.y_axis){
+				angle-=Math.PI;
+			}
+			
+			
+			target.dir = angle;
+		
+		
+		}
 	}
-	
-	var angle = 0;
-	if(objects[1].y_axis!=objects[0].y_axis){
-		angle=Math.atan((objects[1].x_axis-objects[0].x_axis)/(objects[1].y_axis-objects[0].y_axis));
-	}else if(objects[1].x_axis<objects[0].x_axis){
-		angle=Math.PI/2;
-	}else{
-		angle=Math.PI*3/2;
-	}
-	
-	if(angle<0){
-		angle+=Math.PI*2;
-	}
-	if(objects[0].y_axis > objects[1].y_axis){
-		angle-=Math.PI;
-	}
-	
-	
-	objects[0].dir = angle;
 }
 
 function roX(x,y,object){
