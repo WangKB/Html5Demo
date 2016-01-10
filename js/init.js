@@ -1,8 +1,11 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
 var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1};
-var misslie = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:1};
-var objects = [misslie,plane];
+var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
+var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
+var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
+var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
+var objects = [misslie1,misslie2,misslie3,misslie4,plane];
 var ignoreE = 1;
 var scale = 0.5;
 
@@ -162,7 +165,7 @@ function roY(x,y,object){
 }
 
 function attack(object){
-	var missile = {x_axis:roX(object.x_axis+40,object.y_axis+90,object),y_axis:roY(object.x_axis+40,object.y_axis+90,object),dir:object.dir,ke:10,model:model.missiles.general};
+	var missile = {x_axis:roX(object.x_axis+40,object.y_axis+90,object),y_axis:roY(object.x_axis+40,object.y_axis+90,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:-1};
 	objects.push(missile);
 }
 
