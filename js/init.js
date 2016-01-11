@@ -1,10 +1,10 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
-var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1};
-var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
-var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
-var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
-var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4};
+var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
+var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
+var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
+var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
+var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
 var objects = [misslie1,misslie2,misslie3,misslie4,plane];
 var ignoreE = 1;
 var scale = 0.5;
@@ -18,8 +18,8 @@ window.onload=function(){
 	var canvas = document.getElementById("canvas");
 	var content = canvas.getContext("2d");
 	
-	windowWidth = document.body.clientWidth;
-    windowHeight = document.body.clientHeight;//高度全屏有问题
+	windowWidth = 1000;
+    windowHeight = 600;//高度全屏有问题
 	
 	canvas.width = windowWidth;
 	canvas.height = windowHeight;
@@ -101,6 +101,13 @@ function render(cxt){
 		cxt.fillStyle="black";
 		cxt.fill();
 	}
+	
+	
+	cxt.font = "bold 14px consolas";
+
+    cxt.fillStyle = "blue";
+
+    cxt.fillText("角度："+objects[4].dira, 50, 50);
 
 }
 
@@ -165,7 +172,7 @@ function roY(x,y,object){
 }
 
 function attack(object){
-	var missile = {x_axis:roX(object.x_axis+40,object.y_axis+90,object),y_axis:roY(object.x_axis+40,object.y_axis+90,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:-1};
+	var missile = {x_axis:roX(object.x_axis+40,object.y_axis+90,object),y_axis:roY(object.x_axis+40,object.y_axis+90,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:-1,player:false};
 	objects.push(missile);
 }
 
