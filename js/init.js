@@ -108,6 +108,8 @@ function render(cxt){
     cxt.fillStyle = "blue";
 
     cxt.fillText("角度："+objects[4].dira, 50, 50);
+	
+	cxt.fillText("马力："+objects[4].kea, 50, 100);
 
 }
 
@@ -136,6 +138,12 @@ function update(){
 			}
 		}
 		if(flag){
+			
+			//销毁速度为0的导弹
+			if(objects[i].ke==0){
+				
+			}
+			
 			var angle = 0;
 			var target = objects[i];
 			var missilerun = objects[objects[i].target];
