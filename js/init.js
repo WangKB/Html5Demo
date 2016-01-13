@@ -1,13 +1,15 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
 var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
-var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
-var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
-var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
-var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:4,player:false};
-var objects = [misslie1,misslie2,misslie3,misslie4,plane];
+var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var objects = [plane,misslie1,misslie2,misslie3,misslie4];
 var ignoreE = 1;
 var scale = 0.5;
+var score = 0;
+var inGame = true;
 
 window.onload=function(){
 	
@@ -18,7 +20,7 @@ window.onload=function(){
 	var canvas = document.getElementById("canvas");
 	var content = canvas.getContext("2d");
 	
-	windowWidth = 1000;
+	windowWidth = 1200;
     windowHeight = 600;//高度全屏有问题
 	
 	canvas.width = windowWidth;
@@ -32,16 +34,26 @@ window.onload=function(){
 	//}
 	
 	//console.log(xray.toString());
+
 	
-	setInterval(function(){
+	var amazing = setInterval(function(){
 		
 		update();
 		render(content);
-		
+		score+=1;
+		if(!inGame){
+			clearInterval(amazing);
+		}
 		}
 		,16.7);
+	
+	
 		
 	function move(e){
+		
+		if(!inGame){
+			return;
+		}
 
 		switch(e.keyCode){
 			case 37:
@@ -107,9 +119,11 @@ function render(cxt){
 
     cxt.fillStyle = "blue";
 
-    cxt.fillText("角度："+objects[4].dira, 50, 50);
+    cxt.fillText("角度："+objects[0].dira, 50, 50);
 	
-	cxt.fillText("马力："+objects[4].kea, 50, 100);
+	cxt.fillText("马力："+objects[0].kea, 50, 75);
+	
+	cxt.fillText("分数："+score, 50, 100);
 
 }
 
@@ -139,14 +153,14 @@ function update(){
 		}
 		if(flag){
 			
-			//销毁速度为0的导弹
-			if(objects[i].ke==0){
-				
-			}
-			
 			var angle = 0;
 			var target = objects[i];
 			var missilerun = objects[objects[i].target];
+			
+			var distance = Math.sqrt(Math.pow((target.x_axis-objects[0].x_axis),2)+Math.pow((target.y_axis-objects[0].y_axis),2));
+			if(distance<30){
+				inGame=false;
+			}
 			
 			if(missilerun.y_axis!=target.y_axis){
 				angle=Math.atan((missilerun.x_axis-target.x_axis)/(missilerun.y_axis-target.y_axis));
@@ -162,10 +176,23 @@ function update(){
 			if(target.y_axis > missilerun.y_axis){
 				angle-=Math.PI;
 			}
-			
-			
-			target.dir = angle;
-		
+			if(Math.abs(target.dir-angle)<target.model.discover){
+				target.dir = angle;
+			}
+			//销毁速度为0的导弹
+			if(objects[i].ke==0){
+				objects.splice(i,1);
+				random = Math.random();
+				if(random<0.25){
+					objects.push({x_axis:1200,y_axis:600*Math.random(),ke:15,dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+				}else if(random<0.5){
+					objects.push({x_axis:1200*Math.random(),y_axis:600,ke:15,dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+				}else if(random<0.75){
+					objects.push({x_axis:1200*Math.random(),y_axis:0,ke:15,dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+				}else{
+					objects.push({x_axis:0,y_axis:600*Math.random(),ke:15,dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+				}
+			}
 		
 		}
 	}
