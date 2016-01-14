@@ -129,6 +129,20 @@ function render(cxt){
 
 function update(){
 
+	
+	if(objects[0].x_axis>1300){
+		inGame=false;
+	}
+	if(objects[0].x_axis<-100){
+		inGame=false;
+	}
+	if(objects[0].y_axis>700){
+		inGame=false;
+	}
+	if(objects[0].y_axis<-100){
+		inGame=false;
+	}
+
 	for(var i =0;i<objects.length;i++){
 		objects[i].x_axis+= Math.sin(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
 		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
@@ -158,7 +172,7 @@ function update(){
 			var missilerun = objects[objects[i].target];
 			
 			var distance = Math.sqrt(Math.pow((target.x_axis-objects[0].x_axis),2)+Math.pow((target.y_axis-objects[0].y_axis),2));
-			if(distance<30){
+			if(distance<20){
 				inGame=false;
 			}
 			
@@ -177,7 +191,14 @@ function update(){
 				angle-=Math.PI;
 			}
 			if(Math.abs(target.dir-angle)<target.model.discover){
-				target.dir = angle;
+				if(Math.abs(target.dir-angle)<target.model.dira[6]*Math.PI){
+					target.dir=angle;
+					target.dira=3;
+				}else if(target.dir>angle){
+					target.dira=0;
+				}else{
+					target.dira=6;
+				}
 			}
 			//销毁速度为0的导弹
 			if(objects[i].ke==0){
