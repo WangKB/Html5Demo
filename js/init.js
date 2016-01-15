@@ -205,13 +205,13 @@ function update(){
 				objects.splice(i,1);
 				random = Math.random();
 				if(random<0.25){
-					objects.push({x_axis:1200,y_axis:600*Math.random(),ke:15,dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:1200,y_axis:600*Math.random(),ke:20*Math.random(),dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}else if(random<0.5){
-					objects.push({x_axis:1200*Math.random(),y_axis:600,ke:15,dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:1200*Math.random(),y_axis:600,ke:20*Math.random(),dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}else if(random<0.75){
-					objects.push({x_axis:1200*Math.random(),y_axis:0,ke:15,dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:1200*Math.random(),y_axis:0,ke:20*Math.random(),dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}else{
-					objects.push({x_axis:0,y_axis:600*Math.random(),ke:15,dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:0,y_axis:600*Math.random(),ke:20*Math.random(),dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}
 			}
 		
