@@ -1,11 +1,7 @@
 ﻿var windowWidth = 1300;
 var windowHeight = 700;
-var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
-var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
-var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
-var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
-var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
-var objects = [plane,misslie1,misslie2,misslie3,misslie4];
+
+var objects = [];
 var ignoreE = 1;
 var scale = 0.5;
 var score = 0;
@@ -25,6 +21,22 @@ window.onload=function(){
 	
 	canvas.width = windowWidth;
 	canvas.height = windowHeight;
+	
+	var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
+var misslie1 = {x_axis:0,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var misslie2 = {x_axis:1000,y_axis:0,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var misslie3 = {x_axis:0,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+
+	objects.push(plane);
+	var x=[0,1200,0,1200];
+	var y=[0,0,600,600];
+	
+	
+	for(var i=0;i<4;i++){
+		var misslie = {x_axis:x[i],y_axis:y[i],ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
+		objects.push(misslie);
+	}
 	
 	//var img_y=[0,6,10,12,30,30,12,18,60,60,20,20,15,12,8,2,0,-2,-8,-12
 			//,-15,-20,-20,-60,-60,-18,-12,-30,-30,-12,-10,-6];
