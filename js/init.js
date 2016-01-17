@@ -31,11 +31,11 @@ var misslie4 = {x_axis:1000,y_axis:400,ke:15,dir:Math.PI/18,dira:3,kea:3,model:m
 	objects.push(plane);
 	var x=[0,1200,0,1200];
 	var y=[0,0,600,600];
+	var dir=[1/4,7/4,3/4,5/4]
 	
 	
 	for(var i=0;i<4;i++){
-		var misslie = {x_axis:x[i],y_axis:y[i],ke:15,dir:Math.PI/18,dira:3,kea:3,model:model.missiles[0],target:0,player:false};
-		objects.push(misslie);
+		objects.push({x_axis:x[i],y_axis:y[i],ke:15,dir:dir[i]*Math.PI,dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 	}
 	
 	//var img_y=[0,6,10,12,30,30,12,18,60,60,20,20,15,12,8,2,0,-2,-8,-12
