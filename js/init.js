@@ -1,21 +1,15 @@
 ﻿//canvas宽度
 var windowWidth = 1200;
-
 //canvas高度
 var windowHeight = 600;
-
 //运动物体
 var objects = [];
-
 //动能忽略常数
 var ignoreE = 1;
-
 //物体绘制比例
 var scale = 0.5;
-
 //分数
 var score = 0;
-
 //游戏是否结束
 var inGame = true;
 
@@ -111,8 +105,8 @@ function render(cxt){
 	
 	//绘制文字信息
 	cxt.font = "bold 14px consolas";
-  cxt.fillStyle = "blue";
-  cxt.fillText("角度："+objects[0].dira, 50, 50);
+  	cxt.fillStyle = "blue";
+  	cxt.fillText("角度："+objects[0].dira, 50, 50);
 	cxt.fillText("马力："+objects[0].kea, 50, 75);
 	cxt.fillText("分数："+score, 50, 100);
 
