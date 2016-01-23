@@ -25,7 +25,7 @@ window.onload=function(){
 	canvas.height = windowHeight;
 	
 	//定义玩家飞机
-	var plane = {x_axis:600,y_axis:500,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
+	var plane = {x_axis:600,y_axis:300,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
 	objects.push(plane);
 	
 	//初始化飞弹
@@ -125,6 +125,8 @@ function update(){
 		//更新位置、角度与动能属性
 		objects[i].x_axis+= Math.sin(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
 		objects[i].y_axis+= Math.cos(objects[i].dir)*Math.sqrt(2*objects[i].ke/objects[i].model.m);
+		objects[i].x_axis-= Math.sin(objects[0].dir)*Math.sqrt(2*objects[0].ke/objects[0].model.m);
+		objects[i].y_axis-= Math.cos(objects[0].dir)*Math.sqrt(2*objects[0].ke/objects[0].model.m);
 		objects[i].ke+=objects[i].model.kea[objects[i].kea];
 		objects[i].ke=(objects[i].ke-objects[i].ke*objects[i].model.f)<ignoreE?0:(objects[i].ke-objects[i].ke*objects[i].model.f);
 		if(objects[i].ke!=0){
@@ -193,13 +195,13 @@ function update(){
 				objects.splice(i,1);
 				random = Math.random();
 				if(random<0.25){
-					objects.push({x_axis:1200,y_axis:600*Math.random(),ke:20*Math.random(),dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:1200,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}else if(random<0.5){
-					objects.push({x_axis:1200*Math.random(),y_axis:600,ke:20*Math.random(),dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:1200*Math.random(),y_axis:600,ke:50*Math.random(),dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}else if(random<0.75){
-					objects.push({x_axis:1200*Math.random(),y_axis:0,ke:20*Math.random(),dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:1200*Math.random(),y_axis:0,ke:50*Math.random(),dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}else{
-					objects.push({x_axis:0,y_axis:600*Math.random(),ke:20*Math.random(),dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					objects.push({x_axis:0,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}
 			}
 		
