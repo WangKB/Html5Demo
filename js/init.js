@@ -221,7 +221,7 @@ function roY(x,y,object){
 
 //发射飞弹
 function attack(object){
-	var missile = {x_axis:roX(object.x_axis+40,object.y_axis+90,object),y_axis:roY(object.x_axis+40,object.y_axis+90,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:-1,player:false};
+	var missile = {x_axis:roX(object.x_axis+20,object.y_axis,object),y_axis:roY(object.x_axis+20,object.y_axis,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:-1,player:false};
 	objects.push(missile);
 }
 
