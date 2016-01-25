@@ -26,7 +26,9 @@ window.onload=function(){
 	
 	//定义玩家飞机
 	var plane = {x_axis:600,y_axis:300,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
+	var plane2 = {x_axis:600,y_axis:0,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
 	objects.push(plane);
+	objects.push(plane2);
 	
 	//初始化飞弹
 	var x=[0,1200,0,1200];
@@ -137,7 +139,7 @@ function update(){
 		if(objects[i].dir<0){
 			objects[i].dir+=Math.PI*2;
 		}
-		if(objects[i].dir>Math.PI*2){
+		if(objects[i].dir>Math.PI*2||objects[i].dir==Math.PI*2){
 			objects[i].dir-=Math.PI*2;
 		}
 		
@@ -160,8 +162,9 @@ function update(){
 			//目标
 			var targeted = objects[objects[i].target];
 			//距离
-			var distance = Math.sqrt(Math.pow((missiling.x_axis-objects[0].x_axis),2)+Math.pow((missiling.y_axis-objects[0].y_axis),2));
+			var distance = Math.sqrt(Math.pow((missiling.x_axis-targeted.x_axis),2)+Math.pow((missiling.y_axis-targeted.y_axis),2));
 			if(distance<20){
+				objects.splice(objects[i].target,1);
 				inGame=false;
 			}
 			if(targeted.y_axis!=missiling.y_axis){
@@ -171,13 +174,16 @@ function update(){
 			}else{
 				angle=Math.PI*3/2;
 			}
-			
-			if(angle<0){
-				angle+=Math.PI*2;
-			}
 			if(missiling.y_axis > targeted.y_axis){
 				angle-=Math.PI;
 			}
+			if(angle<0){
+				angle+=Math.PI*2;
+			}
+			if(angle>Math.PI*2||angle==Math.PI*2){
+				angle-=Math.PI*2;
+			}
+			
 			
 			//在探测范围则调整角度
 			if(Math.abs(missiling.dir-angle)<missiling.model.discover){
@@ -221,7 +227,6 @@ function roY(x,y,object){
 
 //发射飞弹
 function attack(object){
-	var missile = {x_axis:roX(object.x_axis+20,object.y_axis,object),y_axis:roY(object.x_axis+20,object.y_axis,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:-1,player:false};
-	objects.push(missile);
+	objects.push({x_axis:roX(object.x_axis+20,object.y_axis,object),y_axis:roY(object.x_axis+20,object.y_axis,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:1,player:false});
 }
 
