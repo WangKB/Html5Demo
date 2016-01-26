@@ -26,7 +26,7 @@ window.onload=function(){
 	
 	//定义玩家飞机
 	var plane = {x_axis:600,y_axis:300,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
-	var plane2 = {x_axis:600,y_axis:0,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
+	var plane2 = {x_axis:600,y_axis:0,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:false};
 	objects.push(plane);
 	objects.push(plane2);
 	
@@ -163,10 +163,7 @@ function update(){
 			var targeted = objects[objects[i].target];
 			//距离
 			var distance = Math.sqrt(Math.pow((missiling.x_axis-targeted.x_axis),2)+Math.pow((missiling.y_axis-targeted.y_axis),2));
-			if(distance<20){
-				objects.splice(objects[i].target,1);
-				inGame=false;
-			}
+			
 			if(targeted.y_axis!=missiling.y_axis){
 				angle=Math.atan((targeted.x_axis-missiling.x_axis)/(targeted.y_axis-missiling.y_axis));
 			}else if(targeted.x_axis<missiling.x_axis){
@@ -210,7 +207,20 @@ function update(){
 					objects.push({x_axis:0,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 				}
 			}
-		
+			
+			if(distance<20){
+				if(targeted.player){
+					inGame=false;
+				}
+				if(i>objects[i].target){
+					var itarget = objects[i].target;
+					objects.splice(i,1);
+					objects.splice(itarget,1);
+				}else{
+					objects.splice(objects[i].target,1);
+					objects.splice(i,1);
+				}
+			}
 		}
 	}
 }
