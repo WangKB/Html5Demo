@@ -26,7 +26,7 @@ window.onload=function(){
 	
 	//定义玩家飞机
 	var plane = {x_axis:600,y_axis:300,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:true};
-	var plane2 = {x_axis:600,y_axis:0,ke:0,dir:Math.PI,dira:2,kea:3,model:model.planes[0],target:-1,player:false};
+	var plane2 = {x_axis:600,y_axis:0,ke:0,dir:Math.PI,dira:3,kea:6,model:model.planes[0],target:-1,player:false};
 	objects.push(plane);
 	objects.push(plane2);
 	
@@ -34,7 +34,7 @@ window.onload=function(){
 	var x=[0,1200,0,1200];
 	var y=[0,0,600,600];
 	var dir=[1/4,7/4,3/4,5/4]
-	for(var i=0;i<4;i++){
+	for(var i=0;i<0;i++){
 		objects.push({x_axis:x[i],y_axis:y[i],ke:15,dir:dir[i]*Math.PI,dira:3,kea:3,model:model.missiles[0],target:0,player:false});
 	}
 
@@ -197,14 +197,16 @@ function update(){
 			if(objects[i].ke==0){
 				objects.splice(i,1);
 				random = Math.random();
-				if(random<0.25){
-					objects.push({x_axis:1200,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
-				}else if(random<0.5){
-					objects.push({x_axis:1200*Math.random(),y_axis:600,ke:50*Math.random(),dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
-				}else if(random<0.75){
-					objects.push({x_axis:1200*Math.random(),y_axis:0,ke:50*Math.random(),dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
-				}else{
-					objects.push({x_axis:0,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+				if(false){
+					if(random<0.25){
+						objects.push({x_axis:1200,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					}else if(random<0.5){
+						objects.push({x_axis:1200*Math.random(),y_axis:600,ke:50*Math.random(),dir:Math.PI/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					}else if(random<0.75){
+						objects.push({x_axis:1200*Math.random(),y_axis:0,ke:50*Math.random(),dir:Math.PI*3/2+Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					}else{
+						objects.push({x_axis:0,y_axis:600*Math.random(),ke:50*Math.random(),dir:Math.PI*Math.random(),dira:3,kea:3,model:model.missiles[0],target:0,player:false});
+					}	
 				}
 			}
 			
@@ -237,6 +239,6 @@ function roY(x,y,object){
 
 //发射飞弹
 function attack(object){
-	objects.push({x_axis:roX(object.x_axis+20,object.y_axis,object),y_axis:roY(object.x_axis+20,object.y_axis,object),dir:object.dir,ke:10,dira:3,kea:3,model:model.missiles[0],target:1,player:false});
+	objects.push({x_axis:roX(object.x_axis+20,object.y_axis,object),y_axis:roY(object.x_axis+20,object.y_axis,object),dir:object.dir,ke:10,dira:3,kea:4,model:model.missiles[0],target:1,player:false});
 }
 
